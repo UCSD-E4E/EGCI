@@ -16,9 +16,17 @@ def Entropy(p1):
     p1 = p1/np.sum(p1)
     return entropy(p1)/np.log(len(p1))
 
-def JSD(p):
+def JSD(p, q=None):
     n = len(p)
-    q = np.ones(n)/n # Uniform reference
+    if q is None:
+        q = np.ones(n)/n # Uniform reference
+    elif type(q) is not np.ndarray:
+        raise "Bad type for equalibrum distributions"
+    elif len(q) != n:
+        raise "distributions aren't the same size"
+    else:
+        q = q/q.sum() # normalize q
+    
     p = np.asarray(p)
     q = np.asarray(q)
     p = p/p.sum() # normalize
